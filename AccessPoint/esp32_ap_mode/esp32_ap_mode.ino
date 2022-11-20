@@ -24,14 +24,9 @@
 #define ESP32_SSID     "ESP32-AP"         // Wireless access point SSID
 #define ESP32_PASSWORD "TestEsp32"        // Access point password
 
-
 /******************************* Web server ***********************************/
 
 #define SERVER_PORT 80                    // HTTP port
-
-/************************ Communication parameters ****************************/
-
-#define BAUD_RATE 115200                  // Serial port baudrate
 
 //----------------------------------------------------------------------------//
 //                            General definitions                             //
@@ -43,17 +38,6 @@ WiFiServer APserver(SERVER_PORT);         // WiFi server handler on HTTP port
 String header;                            // HTTP request
 
 //----------------------------------------------------------------------------//
-//                              Local functions                               //
-//----------------------------------------------------------------------------//
-
-/**
-@brief  Function description
-@param  List of parameters
-@retval Return value
-@note   Additional information
-*/
-
-//----------------------------------------------------------------------------//
 //                                Sketch setup                                //
 //----------------------------------------------------------------------------//
 
@@ -63,17 +47,10 @@ String header;                            // HTTP request
 */
 void setup()
 {
-  // Initialize serial port  
-  Serial.begin(BAUD_RATE);
-  
   // Start access point
-  Serial.print("Setting up Access Point…");
-  WiFi.softAP(ESP32_SSID, ESP32_PASSWORD);
   
+  WiFi.softAP(ESP32_SSID, ESP32_PASSWORD);
   IPAddress IP = WiFi.softAPIP();
-  Serial.print("Access Point IP address: ");
-  Serial.println(IP);
-
   APserver.begin();
 }
 
@@ -96,7 +73,6 @@ void loop()
 
   if(client)
   {
-    Serial.println("New Client.");
 
     while(client.connected())
     {
@@ -104,7 +80,6 @@ void loop()
       {
         // Reads received character        
         rxChar = client.read();
-        Serial.write(rxChar);
         header += rxChar;
 
         if(rxChar == '\n')
@@ -149,8 +124,5 @@ void loop()
     
     // Close the connection
     client.stop();
-    Serial.println("Client disconnected.");
-    Serial.println("");
   }  
 }
-
