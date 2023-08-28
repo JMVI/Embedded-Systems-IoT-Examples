@@ -19,6 +19,9 @@
 // On-board LED digital pin
 #define LED_BUILTIN 2
 
+// Blink delay (in ms)
+#define BLINK_DELAY 1000
+
 //----------------------------------------------------------------------------//
 //                            General definitions                             //
 //----------------------------------------------------------------------------//
@@ -45,9 +48,9 @@ void blinky_toggle_led(void* pParameters)
     while(TRUE)
     {
         digitalWrite(LED_BUILTIN, HIGH);
-        vTaskDelay(1000/portTICK_PERIOD_MS);
+        vTaskDelay(BLINK_DELAY/portTICK_PERIOD_MS);
         digitalWrite(LED_BUILTIN, LOW);
-        vTaskDelay(1000/portTICK_PERIOD_MS);
+        vTaskDelay(BLINK_DELAY/portTICK_PERIOD_MS);
 
         /*
         OBSERVATIONS:
@@ -82,7 +85,7 @@ void setup() {
         1024,                // Stack size in bytes (in words for a general FreeRTOS distribution)
         NULL,                // Parameter to task function
         1,                   // Task priority (0 - configMAX_PRIORITIES - 1)
-        NULL,                // Task 
+        NULL,                // Task handler
         app_cpu              // CPU core selector (task to be run in one core for this example). Not available on general FreeRTOS distro
     );
 
