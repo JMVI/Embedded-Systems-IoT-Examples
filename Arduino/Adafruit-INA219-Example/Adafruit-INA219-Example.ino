@@ -56,40 +56,47 @@ void setup(void)
     Serial.println("START");
     Serial.println("Initializing INA219...");
   
-  // Initializes the INA219.
-  /** 
-   * @note - begin() method initializes I2C serial communication.
-   *       - SDA and SCL wires correspond respectively to A4 and A5 pins on the Arduino UNO board.
-   */
-  if(!INA219.begin()) 
-  {
-      Serial.println("INA219 initialization failed");
-      while (1) {}
-  }
+    // Initializes the INA219.
+    /** 
+    * @note - begin() method initializes I2C serial communication.
+    *       - SDA and SCL wires correspond respectively to A4 and A5 pins on the Arduino UNO board.
+    */
+    if(!INA219.begin()) 
+    {
+        Serial.println("INA219 initialization failed");
+        while (1) {}
+    }
 
-  // Sets calibration mode
-  /** 
-   * @note - The calculation for calibration value is performed by Adafruit library. 0.1 Ohm shunt resistor is assumed.
-   *
-   *       1. setCalibration_32V_2A()
-   *          - Max. shunt voltage    = 320 mV
-   *          - Max. expected current = 2.0 A
-   *          - Current resolution    = 0.488 mA
-   * 
-   *       2. setCalibration_32V_1A()
-   *          - Max. shunt voltage    = 320 mV
-   *          - Max. expected current = 1.0 A
-   *          - Current resolution    = 0.244 mA
-   * 
-   *       3. setCalibration_16V_400mA()
-   *          - Max. shunt voltage    = 40 mV
-   *          - Max. expected current = 400 mA
-   *          - Current resolution    = 0.098 mA
-   * 
-   */
-  INA219.setCalibration_16V_400mA();
+    // Sets calibration mode
+    /** 
+    * @note - The calculation for calibration value is performed by Adafruit library. 0.1 Ohm shunt resistor is assumed.
+    *
+    *       1. setCalibration_32V_2A()
+    *          - Max. shunt voltage    = 320 mV
+    *          - Max. expected current = 2.0 A
+    *          - Current resolution    = 0.488 mA
+    * 
+    *       2. setCalibration_32V_1A()
+    *          - Max. shunt voltage    = 320 mV
+    *          - Max. expected current = 1.0 A
+    *          - Current resolution    = 0.244 mA
+    * 
+    *       3. setCalibration_16V_400mA()
+    *          - Max. shunt voltage    = 40 mV
+    *          - Max. expected current = 400 mA
+    *          - Current resolution    = 0.098 mA
+    * 
+    */
+    INA219.setCalibration_16V_400mA();
 
-  Serial.println("----------------------");
+    // Sets power save mode
+    /** 
+    * @note - Power-down mode reduces quiescent current of INA219 to 15 uA max.
+    *       - With power-down mode off, INA219 draws 1 mA max.
+    */
+    INA219.powerSave(true);
+    
+    Serial.println("----------------------");
 }
 
 //****************************************************************************//
